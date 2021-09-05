@@ -4,8 +4,8 @@ ENV TZ=Europe/Madrid
 
 RUN apk add --update --no-cache tini curl dcron libcap tzdata sudo && \
     rm -rf /var/cache/apk && \
-    addgroup poduser && \
-    adduser -G poduser -h /home/poduser -D poduser && \
+    addgroup -g 1000 -S poduser && \
+    adduser -u 1000 -S poduser -G poduser&& \
     chown poduser:poduser /usr/sbin/crond && \
     setcap cap_setgid=ep /usr/sbin/crond && \
     mkdir /crontab && \
