@@ -9,7 +9,7 @@ RUN apk add --update --no-cache tini curl dcron libcap tzdata && \
     chown poduser:poduser /usr/sbin/crond && \
     setcap cap_setgid=ep /usr/sbin/crond
 
-COPY poduser  /crontab/poduser
+COPY poduser /crontab/poduser
 RUN chown -R poduser:poduser /crontab
 
 USER poduser
