@@ -1,13 +1,12 @@
-FROM alpine:3.15
+FROM alpine:3.16
 
 ENV TZ=Europe/Madrid
 
 RUN apk add --update --no-cache \
-            tini~=0.19 \
-            curl~=7.80 \
+            curl~=7.83 \
             dcron~=4.5 \
-            libcap~=2.61 \
-            tzdata~=2021e && \
+            libcap~=2.64 \
+            tzdata~=2022c && \
     rm -rf /var/cache/apk && \
     addgroup -g 1000 -S dockerus && \
     adduser -u 1000 -S dockerus -G dockerus&& \
@@ -21,6 +20,5 @@ COPY start.sh /start.sh
 USER dockerus
 WORKDIR /crontab
 
-ENTRYPOINT ["tini", "--"]
 CMD ["/bin/sh", "/start.sh"]
 

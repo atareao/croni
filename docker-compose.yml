@@ -3,7 +3,8 @@ version: '3'
 services:
   croni:
     build: ./
-    image: atareao/croni:v1.1
+    image: atareao/croni:v1.2
+    init: true
     container_name: croni
     volumes:
       - ./crontab:/crontab
