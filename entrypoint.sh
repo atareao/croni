@@ -42,12 +42,10 @@ then
 fi
 echo "=== Chown ownership ==="
 # comment next line if needs root
-chown -R dockerus:dockerus /app
+chown dockerus:dockerus /usr/sbin/crond
+#setcap cap_setgid=ep /usr/sbin/crond
+chown -R dockerus:dockerus /crontab
 echo "=== Execute $* ==="
 # comment next line if needs root
-chown dockerus:dockerus /usr/sbin/crond
-setcap cap_setgid=ep /usr/sbin/crond
-chwon -R dockerus:dockerus /crontab
 set -- su-exec dockerus "$@"
 exec "$@"
-
