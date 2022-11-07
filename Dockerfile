@@ -6,19 +6,13 @@ RUN apk add --update --no-cache \
             curl~=7.83 \
             dcron~=4.5 \
             libcap~=2.64 \
-            tzdata~=2022c && \
+            tzdata~=2022 && \
     rm -rf /var/cache/apk && \
-    addgroup -g 1000 -S dockerus && \
-    adduser -u 1000 -S dockerus -G dockerus&& \
-    chown dockerus:dockerus /usr/sbin/crond && \
-    setcap cap_setgid=ep /usr/sbin/crond && \
-    mkdir /crontab && \
-    chown dockerus:dockerus /crontab
+    mkdir /crontab
 
-COPY start.sh /start.sh
+COPY entrypoint.sh start.sh /
 
-USER dockerus
 WORKDIR /crontab
 
+ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]
 CMD ["/bin/sh", "/start.sh"]
-
