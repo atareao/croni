@@ -1,21 +1,20 @@
-FROM alpine:3.16
-
-ENV TZ=Europe/Madrid
-
+FROM alpine:3.18
 
 RUN apk add --update --no-cache \
-            curl~=7.83 \
+            curl~=8.1 \
             dcron~=4.5 \
-            libcap~=2.64 \
-            su-exec~=0.2 \
-            tzdata~=2022 && \
+            libcap~=2.69 && \
     rm -rf /var/cache/apk && \
     setcap cap_setgid=ep /usr/sbin/crond && \
-    mkdir /crontab
+    addgroup -g 1000 -S dockerus && \
+    adduser -u 1000 -S dockerus -G dockerus && \
+    chown dockerus:dockerus /usr/sbin/crond && \
+    setcap cap_setgid=ep /usr/sbin/crond && \
+    mkdir /crontab && \
+    chown -R dockerus:dockerus /crontab
 
-COPY entrypoint.sh start.sh /
-
+COPY --chown=dockerus:dockerus start.sh /start.sh
+USER dockerus
 WORKDIR /crontab
 
-ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]
 CMD ["/bin/sh", "/start.sh"]

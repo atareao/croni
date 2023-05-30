@@ -1,25 +1,29 @@
-#!/bin/sh
+#!/usr/bin/env bash
+# -*- coding: utf-8 -*-
 
-#sudo /bin/chown -R poduser:poduser /crontab
+# Copyright (c) 2023 Lorenzo Carbonell <a.k.a. atareao>
 
-# Usage: crond -fbS -l N -d N -L LOGFILE -c DIR
-# 
-#     -f  Foreground
-#     -b  Background (default)
-#     -S  Log to syslog (default)
-#     -l N    Set log level. Most verbose:0, default:8
-#     -d N    Set log level, log to stderr
-#     -L FILE Log to FILE
-#     -c DIR  Cron dir. Default:/var/spool/cron/crontabs
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
 
-# -l emerg or panic  LOG_EMERG   0   [* system is unusable *]
-# -l alert           LOG_ALERT   1   [* action must be taken immediately *]
-# -l crit            LOG_CRIT    2   [* critical conditions *]
-# -l error or err    LOG_ERR     3   [* error conditions *]
-# -l warn or warning LOG_WARNING 4   [* warning conditions *]
-# -l notice          LOG_NOTICE  5   [* normal but significant condition *] the default
-# -l info            LOG_INFO    6   [* informational *]
-# -l debug           LOG_DEBUG   7   [* debug-level messages *] same as -d option 
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
 
-DEBUG=${DEBUG:-debug}
-crond -c /crontab -f -l ${DEBUG}
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+echo "Copy content"
+cp /crontab.txt /crontab/dockerus
+echo "Set log level"
+LOGLEVEL=${LOGLEVEL:-debug}
+echo "Init crond"
+crond -c /crontab -f -l "${LOGLEVEL}"
