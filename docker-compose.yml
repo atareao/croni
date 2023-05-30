@@ -2,11 +2,13 @@ version: '3.7'
 
 services:
   croni:
-    build: ./
-    image: atareao/croni:v1.2
+    image: atareao/croni:v1.3
+    restart: always
     init: true
     container_name: croni
     volumes:
-      - ./crontab:/crontab
-    env_file:
-      - croni.env
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - ./crontab.txt:/crontab.txt:ro
+    environment:
+      - LOGLEVEL=debug

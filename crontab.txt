@@ -1,0 +1,2 @@
+* * * * * echo $(date) >> /proc/1/fd/1
+* * * * * curl google.es >> /proc/1/fd/1
