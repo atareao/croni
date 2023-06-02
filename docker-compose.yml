@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   croni:
-    image: atareao/croni:v1.3
+    image: atareao/croni:latest
     restart: always
     init: true
     container_name: croni
