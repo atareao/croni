@@ -14,11 +14,10 @@ create:
     set -euxo pipefail
     for ARCH in amd64 arm64 arm-v7 arm-v6; do
         echo "Building ${ARCH}"
-        buildah build \
-                --pull \
+        buildah bud \
+                --platform linux/${ARCH} \
                 --tag "docker.io/{{user}}/{{name}}:{{version}}-${ARCH}" \
                 --tag "docker.io/{{user}}/{{name}}:latest-${ARCH}" \
-                --arch ${ARCH} \
                 .
     done
     for VERSION in {{version}} latest; do
