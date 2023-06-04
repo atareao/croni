@@ -1,4 +1,4 @@
-FROM --platform=$TARGETPLATFORM alpine:3.18
+FROM alpine:3.18
 
 RUN apk add --update --no-cache \
             curl~=8.1 \

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2023 Lorenzo Carbonell <a.k.a. atareao>
@@ -21,9 +21,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-echo "Copy content"
+if [ ! -f /crontab.txt ]; then
+    echo "Error. Please map crotab.txt to '/crontab.txt'"
+    exit 1
+fi
+echo "Copy content from '/crontab.txt' to '/crontab/dockerus'"
 cp /crontab.txt /crontab/dockerus
-echo "Set log level"
 LOGLEVEL=${LOGLEVEL:-debug}
-echo "Init crond"
+echo "Set log level to '${LOGLEVEL}'"
+echo "Starting crond..."
 crond -c /crontab -f -l "${LOGLEVEL}"
