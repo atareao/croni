@@ -6,9 +6,10 @@ services:
     restart: always
     init: true
     container_name: croni
+    environment:
+      - TZ=Europe/Madrid
+      - LOGLEVEL=debug
     volumes:
+      - ./crontab.txt:/crontab.txt:ro
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-      - ./crontab.txt:/crontab.txt:ro
-    environment:
-      - LOGLEVEL=debug

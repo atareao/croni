@@ -1,18 +1,31 @@
-FROM alpine:3.18
+FROM alpine:3.19
+
+ENV USER=dockerus \
+    UID=10001 \
+    HOME=cronitab
 
 RUN apk add --update --no-cache \
-            curl~=8.1 \
+            tzdata~=2024 \
+            curl~=8.5 \
             dcron~=4.5 \
             libcap~=2.69 && \
+    rm -rf /var/lib/app/lists* && \
     rm -rf /var/cache/apk && \
-    addgroup -g 10001 -S dockerus && \
-    adduser -u 10001 -S dockerus -G dockerus && \
-    chown dockerus:dockerus /usr/sbin/crond && \
+    adduser \
+        --disabled-password \
+        --gecos "" \
+        --home "/${HOME}" \
+        --shell "/sbin/nologin" \
+        --uid "${UID}" \
+        "${USER}" && \
+    chown "${USER}:${USER}" /usr/sbin/crond && \
     setcap cap_setgid=ep /usr/sbin/crond && \
-    mkdir /crontab && \
-    chown -R dockerus:dockerus /crontab
-COPY --chown=dockerus:dockerus start.sh /start.sh
-USER dockerus
-WORKDIR /crontab
+    touch "/${HOME}/${USER}" && \
+    chown -R "${USER}:${USER}" "/${HOME}"
 
-CMD ["/bin/sh", "/start.sh"]
+COPY --chown="${USER}:${USER}" run.sh /run.sh
+
+WORKDIR "$HOME"
+USER "${USER}"
+
+CMD ["/bin/sh", "/run.sh"]

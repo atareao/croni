@@ -22,23 +22,24 @@ run:
     docker run --rm \
                --init \
                --name croni \
-               --init \
-               --volume /etc/timezone:/etc/timezone:ro \
-               --volume /etc/localtime:/etc/localtime:ro \
-               --env-file croni.env \
+               --volume ${PWD}/crontab.txt:/crontab.txt:ro \
+               --env TZ=Europe/Madrid \
+               --env LOGLEVEL=debug \
                -v ${PWD}/crontab:/crontab \
                {{user}}/{{name}}:{{version}}
 
 sh:
     docker run --rm \
                -it \
-               --name croni \
                --init \
-               --env-file croni.env \
+               --name croni \
+               --volume ${PWD}/crontab.txt:/crontab.txt:ro \
+               --env TZ=Europe/Madrid \
+               --env LOGLEVEL=debug \
                -v ${PWD}/crontab:/crontab \
                {{user}}/{{name}}:{{version}} \
                sh
 
 push:
-    podman push {{user}}/{{name}}:{{version}}
-    podman push {{user}}/{{name}}:latest
+    docker push {{user}}/{{name}}:{{version}}
+    docker push {{user}}/{{name}}:latest

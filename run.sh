@@ -26,8 +26,8 @@ if [ ! -f /crontab.txt ]; then
     exit 1
 fi
 echo "Copy content from '/crontab.txt' to '/crontab/dockerus'"
-cp /crontab.txt /crontab/dockerus
+cp /crontab.txt /cronitab/dockerus
 LOGLEVEL=${LOGLEVEL:-debug}
 echo "Set log level to '${LOGLEVEL}'"
-echo "Starting crond..."
-crond -c /crontab -f -l "${LOGLEVEL}"
+echo "Starting crond... $(date)"
+crond -c /cronitab -f -l "${LOGLEVEL}"
